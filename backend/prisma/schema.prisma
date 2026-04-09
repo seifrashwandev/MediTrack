@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Admin
+  Doctor
+  Patient
+}
+
+enum AppointmentStatus {
+  Scheduled
+  Completed
+  Canceled
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  role          Role
+  mfa_secret    String?
+  created_at    DateTime @default(now())
+
+  patient       Patient?
+  appointments  Appointment[]
+  prescriptions Prescription[]
+}
+
+model Patient {
+  id              String   @id @default(uuid())
+  user_id         String   @unique
+  user            User     @relation(fields: [user_id], references: [id])
+  full_name       String
+  date_of_birth   DateTime
+  phone           String?
+  medical_history Json?
+
+  appointments    Appointment[]
+  prescriptions   Prescription[]
+  lab_results     LabResult[]
+}
+
+model Appointment {
+  id               String   @id @default(uuid())
+  patient_id       String
+  doctor_id        String
+  appointment_date DateTime
+  status           AppointmentStatus @default(Scheduled)
+  notes            String?
+
+  patient          Patient @relation(fields: [patient_id], references: [id])
+  doctor           User    @relation(fields: [doctor_id], references: [id])
+  prescription     Prescription?
+}
+
+model Prescription {
+  id                 String   @id @default(uuid())
+  appointment_id     String   @unique
+  doctor_id          String
+  patient_id         String
+  medication_details Json
+  issued_at          DateTime @default(now())
+
+  appointment        Appointment @relation(fields: [appointment_id], references: [id])
+  doctor             User        @relation(fields: [doctor_id], references: [id])
+  patient            Patient     @relation(fields: [patient_id], references: [id])
+}
+
+model LabResult {
+  id          String   @id @default(uuid())
+  patient_id  String
+  test_name   String
+  file_url    String
+  uploaded_at DateTime @default(now())
+
+  patient     Patient @relation(fields: [patient_id], references: [id])
+}
