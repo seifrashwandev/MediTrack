@@ -1,24 +1,23 @@
 # MediTrack - System Documentation & Setup Log
 
 ## 1. System Architecture Overview
-MediTrack is a full-stack healthcare management system built using a monorepo structure.
+MediTrack follows a **Polyrepo** architecture to optimize CI/CD and deployments. 
+This main repository contains the Core System (Web + Backend). The Mobile App is maintained in a standalone repository.
+
 - **Web App:** React (Vite)
-- **Mobile App:** React Native (Expo)
 - **Backend:** Node.js, Express
 - **Database:** PostgreSQL (Neon Cloud) via Prisma ORM v6
+- **Mobile App:** React Native (Expo) - *Maintained in the standalone `MediTrack-Mobile` repository*
 
 ## 2. Daily Setup & Startup Routine
-To start working on the system daily, simply run the `start_dev.bat` file located in the root directory. This batch script automatically opens three separate terminal instances and starts the local development servers for the Web, Mobile, and prepares the Backend environment.
+To start working on the core system daily, run the `start_dev.bat` file in the root directory. This automatically launches the terminals and local development servers for both the Web and Backend.
 
 ## 3. Progress Log
 
-### Day 1: System Initialization
+### Day 1: System Initialization & Restructuring
 **Completed Tasks:**
-- Set up a Git Monorepo architecture (`web`, `mobile`, `backend`).
 - Initialized React/Vite frontend for the web application.
-- Initialized React Native/Expo frontend for the mobile application.
 - Initialized Node.js backend environment.
-- Configured Prisma ORM (v6 for stability).
-- Drafted Database Schema (Users, Patients, Appointments, Prescriptions, LabResults) using UUIDs and JSONB.
-- Successfully migrated and synced the schema to a remote Neon PostgreSQL database.
+- Configured Prisma ORM (v6 for stability) and successfully migrated the schema to a remote Neon PostgreSQL database.
 - Created local DX startup scripts (`start_dev.bat`).
+- **Architectural Update:** Extracted the React Native Mobile app into a standalone repository (`MediTrack-Mobile`) to streamline store deployments and separate the release cycles.
