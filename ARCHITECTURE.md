@@ -24,10 +24,13 @@ graph TD
     Web <-->|REST API| Backend
     Mobile <-->|REST API| Backend
     Backend <-->|Prisma ORM| DB
-2. Database Entity Relationship Diagram (ERD)
+```
+
+## 2. Database Entity Relationship Diagram (ERD)
+
 The core data model utilizing PostgreSQL features like JSONB and UUIDs.
 
-مقتطف الرمز
+```mermaid
 erDiagram
     User ||--o| Patient : "1:1 (If role=Patient)"
     User ||--o{ Appointment : "1:N (Doctor)"
@@ -72,12 +75,15 @@ erDiagram
         UUID patient_id FK
         String file_url
     }
-3. Development Roadmap
-مقتطف الرمز
+```
+
+## 3. Development Roadmap
+
+```mermaid
 gantt
     title MediTrack Development Roadmap
     dateFormat  YYYY-MM-DD
-    axisFormat  Phase %j
+    axisFormat  %j
     
     section Phase 1: Init
     System Setup & Architecture  :done, p1, 2026-04-10, 1d
@@ -95,3 +101,4 @@ gantt
     section Phase 4: Mobile UI
     Patient Portal UI Components :p8, after p7, 3d
     API Integration              :p9, after p8, 3d
+```
